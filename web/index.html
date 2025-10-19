@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- 
-    The base href is hardcoded to /tempp/ to ensure correct asset loading 
-    when deploying to GitHub Pages under the repository name 'tempp'.
-    This resolves the "white screen" issue caused by missing assets.
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="/tempp/"> 
+  <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A Flutter Temperature Monitor project.">
+  <meta name="description" content="A new Flutter project.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -21,37 +29,15 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>Temperature Monitor</title>
+  <title>temp_monitor</title>
   <link rel="manifest" href="manifest.json">
-  
-  <!-- 
-    CRITICAL FIX: Manually inject Firebase JS SDK before Flutter runs.
-    This ensures that 'firebase_core' is initialized correctly, preventing
-    the silent runtime error that causes a white screen on deployment.
-    
-    You MUST adjust the version if Flutter's package dependencies change.
-  -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- CRITICAL FIX: Manually load the Firebase JS SDK -->
+  <!-- This resolves the common "white screen" error in production environments like GitHub Pages -->
+  <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <script>
-    // Note: The Firebase initialization is done inside Flutter's main() function
-    // using dart:js interop and the firebase_core package.
-    // We only load the JS libraries here.
-    
-    // This script ensures the flutter_bootstrap.js runs after the document is loaded
-    // and Firebase scripts are ready.
-    window.addEventListener('load', function () {
-      _flutter.loader.loadEntrypoint({
-        entrypointUrl: 'main.dart.js',
-      }).then(function (engineInitializer) {
-        return engineInitializer.initializeEngine();
-      }).then(function (appRunner) {
-        appRunner.runApp();
-      });
-    });
-  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
