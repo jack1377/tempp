@@ -26,9 +26,10 @@ jobs:
         run: flutter pub get
 
       - name: Flutter Build Web # ساخت خروجی وب
+        # لطفاً نام ریپازیتوری خود را به جای [YOUR_REPO_NAME] جایگزین کنید. 
+        # (مانند: /temp-monitor/)
         run: |
-          # نکته حیاتی: Base URL باید نام دقیق ریپازیتوری شما باشد.
-          # نام ریپازیتوری خود را به جای [YOUR_REPO_NAME] جایگزین کنید.
+          # IMPORTANT: Replace [YOUR_REPO_NAME] with your actual repository name (e.g., /my-app/).
           flutter build web --base-href /tempp/ 
 
       - name: Deploy to GitHub Pages # استقرار فایل‌های ساخته شده در شاخه gh-pages
