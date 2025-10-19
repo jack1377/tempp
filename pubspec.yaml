@@ -1,0 +1,34 @@
+# [بخش ۱: اطلاعات کلی پروژه]
+name: temp_monitor
+description: A temperature monitoring app using Flutter and Firebase Firestore.
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+# [بخش ۲: وابستگی‌های فلاتر و Firebase]
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # وابستگی‌های ضروری برای Firebase
+  # (نسخه‌های به‌روزرسانی شده برای رفع مشکل ناسازگاری وب - PromiseJsImpl)
+  firebase_core: ^2.25.2  
+  firebase_auth: ^4.17.0
+  cloud_firestore: ^4.15.0
+  
+  # ویجت‌های طراحی متریال
+  cupertino_icons: ^1.0.2
+
+# [بخش ۳: تنظیمات Dev]
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+# [بخش ۴: تنظیمات فونت و دارایی‌ها]
+flutter:
+  uses-material-design: true
+  # شما می‌توانید در اینجا فونت 'Inter' را اضافه کنید اگر از سیستم بارگذاری فونت محلی استفاده می‌کنید.
