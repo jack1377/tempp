@@ -1,42 +1,41 @@
-# This workflow will build and deploy the Flutter Web application to GitHub Pages.
-# این ورک‌فلو برنامه وب فلاتر را ساخته و آن را روی GitHub Pages مستقر می‌کند.
-
 name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
     branches:
-      - main # شاخه‌ای که می‌خواهید با هر بار push شدن آن، استقرار انجام شود.
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write # Required for deployment
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout Code # دریافت کد از ریپازیتوری
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Flutter # نصب محیط فلاتر
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0' # نسخه‌ای که می‌خواهید برای build استفاده شود (قابل تغییر)
-          channel: 'stable'
+          flutter-version: '3.16.0' # Use a stable version
 
-      - name: Get Dependencies # دریافت وابستگی‌های پروژه (flutter pub get)
+      - name: Run Flutter Pub Get
         run: flutter pub get
 
-      - name: Flutter Build Web # ساخت خروجی وب
-        # لطفاً نام ریپازیتوری خود را به جای [YOUR_REPO_NAME] جایگزین کنید. 
-        # (مانند: /temp-monitor/)
+      - name: Build Web
         run: |
-          # IMPORTANT: Replace [YOUR_REPO_NAME] with your actual repository name (e.g., /my-app/).
-          flutter build web --base-href /tempp/ 
+          # The Base URL must be the exact name of your repository, enclosed in slashes (e.g., /tempp/)
+          flutter build web --release --base-href /tempp/ 
 
-      - name: Deploy to GitHub Pages # استقرار فایل‌های ساخته شده در شاخه gh-pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # پوشه‌ای که فایل‌های build شده در آن قرار دارند
-          publish_dir: ./build/web 
-          # شاخه‌ای که GitHub Pages از آن برای میزبانی استفاده می‌کند
-          publish_branch: gh-pages 
+          publish_dir: build/web
+          publish_branch: gh-pages # The branch the pages will be deployed to
+          enable_jekyll: true # Disable Jekyll processing
