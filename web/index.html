@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    ... سایر کامنت‌ها ...
-    
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+  <!-- 
+    The base href is hardcoded to /tempp/ to ensure correct asset loading 
+    when deploying to GitHub Pages under the repository name 'tempp'.
+    This resolves the "white screen" issue caused by missing assets.
   -->
-  <!-- FIX: Reverting to placeholder to satisfy the build system. The actual value is set in the workflow. -->
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="/tempp/"> 
 
   <meta charset="UTF-8">
-  <!-- ... سایر تگ‌ها ... -->
-  <meta name="description" content="A new Flutter project.">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A Flutter Temperature Monitor project.">
 
   <!-- iOS meta tags & icons -->
-  <!-- ... سایر تگ‌ها ... -->
-  
-  <title>temp_monitor</title>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="temp_monitor">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Temperature Monitor</title>
   <link rel="manifest" href="manifest.json">
+  
+  <!-- 
+    CRITICAL FIX: Manually inject Firebase JS SDK before Flutter runs.
+    This ensures that 'firebase_core' is initialized correctly, preventing
+    the silent runtime error that causes a white screen on deployment.
+    
+    You MUST adjust the version if Flutter's package dependencies change.
+  -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+  <script>
+    // Note: The Firebase initialization is done inside Flutter's main() function
+    // using dart:js interop and the firebase_core package.
+    // We only load the JS libraries here.
+    
+    // This script ensures the flutter_bootstrap.js runs after the document is loaded
+    // and Firebase scripts are ready.
+    window.addEventListener('load', function () {
+      _flutter.loader.loadEntrypoint({
+        entrypointUrl: 'main.dart.js',
+      }).then(function (engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function (appRunner) {
+        appRunner.runApp();
+      });
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
