@@ -1,0 +1,41 @@
+# This workflow will build and deploy the Flutter Web application to GitHub Pages.
+# این ورک‌فلو برنامه وب فلاتر را ساخته و آن را روی GitHub Pages مستقر می‌کند.
+
+name: Deploy Flutter Web to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # شاخه‌ای که می‌خواهید با هر بار push شدن آن، استقرار انجام شود.
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code # دریافت کد از ریپازیتوری
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter # نصب محیط فلاتر
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0' # نسخه‌ای که می‌خواهید برای build استفاده شود (قابل تغییر)
+          channel: 'stable'
+
+      - name: Get Dependencies # دریافت وابستگی‌های پروژه (flutter pub get)
+        run: flutter pub get
+
+      - name: Flutter Build Web # ساخت خروجی وب
+        run: |
+          # نکته حیاتی: Base URL باید نام دقیق ریپازیتوری شما باشد.
+          # نام ریپازیتوری خود را به جای [YOUR_REPO_NAME] جایگزین کنید.
+          flutter build web --base-href /tempp/ 
+
+      - name: Deploy to GitHub Pages # استقرار فایل‌های ساخته شده در شاخه gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # پوشه‌ای که فایل‌های build شده در آن قرار دارند
+          publish_dir: ./build/web 
+          # شاخه‌ای که GitHub Pages از آن برای میزبانی استفاده می‌کند
+          publish_branch: gh-pages 
