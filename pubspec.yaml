@@ -15,9 +15,10 @@ dependencies:
   
   # وابستگی‌های ضروری برای Firebase
   # (نسخه‌های به‌روزرسانی شده برای رفع مشکل ناسازگاری وب - PromiseJsImpl)
-  firebase_core: ^2.25.2  
+  firebase_core: ^2.24.2  
   firebase_auth: ^4.17.0
   cloud_firestore: ^4.15.0
+  firebase_database: ^10.4.1
   
   # ویجت‌های طراحی متریال
   cupertino_icons: ^1.0.2
